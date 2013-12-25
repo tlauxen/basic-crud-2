@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Built-By: tiago
+Build-Jdk: 1.7.0_21
+Main-Class: com.tlauxen.jetty.JettyRunner
+Created-By: Maven Integration for Eclipse
+
