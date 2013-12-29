@@ -2,7 +2,7 @@ create sequence pais_seq;
 
 create table pais (
 	id bigint not null,
-	sigla varchar(2) not null,
+	sigla varchar(3) not null,
 	nome varchar(100) not null
 );
 

@@ -15,14 +15,14 @@
 					<div class="control-group">
 						<label class="control-label" for="sigla">Sigla *:</label>
 						<div class="controls">
-							<input type="text" id="sigla" name="sigla" placeholder="sigla" data-ng-model="model.sigla" required>
+							<input type="text" id="sigla" name="sigla" placeholder="sigla" data-ng-model="model.sigla" required maxlength="3">
 							<span data-ng-show="frm.sigla.$error.required" class="help-inline">Campo obrigatório</span>
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="nome">Nome *:</label>
 						<div class="controls">
-							<input type="text" id="nome" name="nome" placeholder="Nome" data-ng-model="model.nome" required>
+							<input type="text" id="nome" name="nome" placeholder="Nome" data-ng-model="model.nome" required maxlength="100">
 							<span data-ng-show="frm.nome.$error.required" class="help-inline">Campo obrigatório</span>
 						</div>
 					</div>

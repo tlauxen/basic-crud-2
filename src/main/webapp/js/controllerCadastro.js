@@ -1,4 +1,6 @@
 function ControllerCadastro($scope, $http, $rootScope) {
+	
+	$rootScope.model = {};
 
     //AJAX
     

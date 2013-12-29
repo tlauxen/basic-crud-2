@@ -38,7 +38,7 @@ public class EstadoDao extends AbstractCrudDao<Estado> {
 		}
 		if (filter.getPais() != null && filter.getPais().getId() != null) {
 			sql.append(" and p.id = ? ");
-			params.add("%"+filter.getNome()+"%");
+			params.add("%"+filter.getPais().getId()+"%");
 		}
 		sql.append(" order by p.sigla,p.nome,e.sigla,e.nome");
 		

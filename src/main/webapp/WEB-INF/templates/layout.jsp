@@ -24,6 +24,7 @@
 					<ul class="dropdown-menu">
 						<li><a href="${pageContext.request.contextPath}/pais/listagem">País</a></li>
 						<li><a href="${pageContext.request.contextPath}/estado/listagem">Estado</a></li>
+						<li><a href="${pageContext.request.contextPath}/cidade/listagem">Cidade</a></li>
 					</ul>
 				</li>
 			</ul>
