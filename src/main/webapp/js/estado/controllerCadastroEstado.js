@@ -1,22 +1,7 @@
-function Controller($scope, $http) {
+function ControllerCadastroEstado($scope, $http, $rootScope) {
+	
+	ControllerCadastro($scope, $http, $rootScope);
 
-	
-	$scope.filter = {};
-	
-    //AJAX
-    
-	$scope.save = function() {
-        Behavior.save($scope, $http);
-    };
-    
-    $scope.remove = function(o) {
-    	Behavior.remove($scope, $http,o);
-    };
-    
-    $scope.find = function() {
-    	Behavior.find($scope, $http);
-    };
-    
     $scope.doLoad = function(data) {
     	$.each($scope.paises, 
         		function() {
@@ -28,23 +13,12 @@ function Controller($scope, $http) {
         	);
     };
     
-    //BEHAVIOR
-    
-    $scope.cancel = function() {
-    	Behavior.cancel();
-    };
-    
-    $scope.novo = function() {
-    	Behavior.novo();
-    };
-    
-    $scope.edit = function(o) {
-    	Behavior.edit(o);
-    };
-    
+
     $scope.onChangePais = function() {
     	
-    	$scope.model.pais = $scope.paisSelecionado;
+    	if ($scope.model) {
+    		$scope.model.pais = $scope.paisSelecionado;
+    	}
     	
     };
 
@@ -59,7 +33,7 @@ function Controller($scope, $http) {
 			.success(function(data) {
 				$scope.paises = data;
 				Behavior.unBlockForm();
-                Behavior.init($scope, $http);
+                Behavior.initCadastro($scope, $http);
 			}).error(function(data, status, headers, config) {
 	        	toastr.error(Constants.ERROR_WHEN_QUERYING + data);
 	        	Behavior.unBlockForm();
@@ -70,6 +44,5 @@ function Controller($scope, $http) {
     //INITIALIZATION
     
 	$scope.findPaises(self);
-    //INITIALIZATION
 
 }

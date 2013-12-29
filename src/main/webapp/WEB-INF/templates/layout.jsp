@@ -35,13 +35,15 @@
 
 	<script src="${pageContext.request.contextPath}/js/jquery-1.10.2.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/angular.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/angular.js"></script>
 	<script src="${pageContext.request.contextPath}/js/jquery.blockUI.js"></script>
 	<script src="${pageContext.request.contextPath}/js/sammy.js"></script>
 	<script src="${pageContext.request.contextPath}/js/toastr.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/constants.js"></script>
 	<script src="${pageContext.request.contextPath}/js/common.js"></script>
 	<script src="${pageContext.request.contextPath}/js/model.js"></script>
+	<script src="${pageContext.request.contextPath}/js/controllerCadastro.js"></script>
+	<script src="${pageContext.request.contextPath}/js/controllerListagem.js"></script>
 	<c:set var="x"><tiles:getAsString name="js" ignore="true" /></c:set>
 	<c:if test="${not empty x}">
 		<script src="${pageContext.request.contextPath}/js/<tiles:getAsString name="js" ignore="true" />"></script>

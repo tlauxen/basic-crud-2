@@ -1,16 +1,23 @@
 var Behavior = {
 		
 	//Initial things
-	init: function($scope, $http) {
+	initListagem: function($scope, $http) {
+	    // Client-side routes
+	    $scope.find();
+	    
+	},
+	
+	//Initial things
+	initCadastro: function($scope, $http) {
 	    // Client-side routes
 	    Sammy(function() {
 	        this.get('#:id', function() {
 	    		Behavior.load(this.params.id, $scope, $http);
 	        });
-
 	    }).run();
+	    
 	},
-	
+		
 	//NAVIGATION things
 	
 	//GOTO Create entity
@@ -45,7 +52,9 @@ var Behavior = {
 		$http.get(path)
 			.success(function(data) {
 				$scope.model = data;
-				$scope.doLoad(data);
+				if ($scope.doLoad) {
+					$scope.doLoad(data);
+				}
 				Behavior.unBlockForm();
 			}).error(function(data, status, headers, config) {
 				toastr.error(Constants.ERROR_WHEN_LOADING_ENTITY + data);

@@ -1,13 +1,18 @@
-function Controller($scope, $http) {
+function ControllerListagem($scope, $http) {
 
+	configureControllerCadastro($scope, $http);
 	
+    //INITIALIZATION
+    
+    Behavior.initListagem($scope, $http);
+
+}
+
+function configureControllerCadastro($scope, $http) {
+
 	$scope.filter = {};
 	
     //AJAX
-    
-	$scope.save = function() {
-        Behavior.save($scope, $http);
-    };
     
     $scope.remove = function(o) {
     	Behavior.remove($scope, $http,o);
@@ -17,15 +22,7 @@ function Controller($scope, $http) {
     	Behavior.find($scope, $http);
     };
     
-    $scope.doLoad = function(data) {
-    	
-    };
-    
     //BEHAVIOR
-    
-    $scope.cancel = function() {
-    	Behavior.cancel();
-    };
     
     $scope.novo = function() {
     	Behavior.novo();
@@ -34,9 +31,5 @@ function Controller($scope, $http) {
     $scope.edit = function(o) {
     	Behavior.edit(o);
     };
-
-    //INITIALIZATION
-    
-    Behavior.init($scope, $http);
 
 }
