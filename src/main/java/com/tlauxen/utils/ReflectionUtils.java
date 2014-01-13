@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.tlauxen.model.Entity;
+import com.tlauxen.model.IDomain;
 
 public class ReflectionUtils {
 
@@ -24,7 +25,7 @@ public class ReflectionUtils {
 		return toReturn;
 	}
 	
-	public static Map<String, Object> getFields(Entity entity) {
+	public static Map<String, Object> getFields(Entity entity, boolean addNulllValues) {
 		Map<String, Object> toReturn = new HashMap<String, Object>();
 		
 		Map<String, Class<?>> fields = getFields(entity.getClass());
@@ -33,7 +34,11 @@ public class ReflectionUtils {
 			
 			if (Entity.class.isAssignableFrom(attrClazz)) {
 				
-				toReturn.put("id"+attrClazz.getSimpleName(), ((Entity)getFieldValue(entity, field)).getId());
+				Entity fieldValue = (Entity)getFieldValue(entity, field);
+				
+				if (addNulllValues || fieldValue != null) {
+					toReturn.put("id"+attrClazz.getSimpleName(), fieldValue == null ? null : fieldValue.getId());
+				}
 				
 			} else {
 				
@@ -99,6 +104,7 @@ public class ReflectionUtils {
 		for (String key: values.keySet()) {
 			
 			//Se o atributo for uama entity
+			Object value = values.get(key);
 			if (key.contains("_")) {
 				String[] s = key.split("_");
 				String fieldName = s[0];
@@ -125,7 +131,14 @@ public class ReflectionUtils {
 							fieldValue = getFieldValue(o, fieldName);
 						}
 						
-						setFieldValue(fieldValue, subFieldName, values.get(key));
+						if (IDomain.class.isAssignableFrom(subFieldClazz)) {
+							try {
+								value = fieldClazz.getMethod("fromValue", String.class).invoke(o, value);
+							} catch (Exception e) {
+								throw new RuntimeException(e);
+							}
+						}
+						setFieldValue(fieldValue, subFieldName, value);
 						
 					}
 				
@@ -139,11 +152,38 @@ public class ReflectionUtils {
 				
 			//Se o atributo é um campo comum
 			} else {
-				setFieldValue(o, key, values.get(key));
+				Object[] field = getField(o.getClass(), key);
+				Class<?> fieldClazz = (Class<?>) field[1];
+				if (IDomain.class.isAssignableFrom(fieldClazz)) {
+					try {
+						value = fieldClazz.getMethod("fromValue", String.class).invoke(o, value);
+					} catch (IllegalAccessException e) {
+						throw new RuntimeException(e);
+					} catch (IllegalArgumentException e) {
+						throw new RuntimeException(e);
+					} catch (InvocationTargetException e) {
+						throw new RuntimeException(e);
+					} catch (NoSuchMethodException e) {
+						throw new RuntimeException(e);
+					} catch (SecurityException e) {
+						throw new RuntimeException(e);
+					}
+				}
+				setFieldValue(o, (String) field[0], value);
 			}
 		}
 		
 		return o;
+	}
+	
+	public static Object[] getField(Class<?> clazz, String fieldName) {
+		Map<String, Class<?>> fields = getFields(clazz);
+		for (String key: fields.keySet()) {
+			if (key.toLowerCase().equals(fieldName.toLowerCase())) {
+				return new Object[]{key,fields.get(key)};
+			}
+		}
+		return null;
 	}
 		
 }

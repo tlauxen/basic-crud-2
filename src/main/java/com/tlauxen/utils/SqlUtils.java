@@ -35,7 +35,7 @@ public class SqlUtils {
 
 		String tableName = entity.getClass().getSimpleName();
 
-		Map<String, Object> props = ReflectionUtils.getFields(entity);
+		Map<String, Object> props = ReflectionUtils.getFields(entity, false);
 		
 		String sqlPattern = "insert into %s (%s) values (%s)";
 		
@@ -50,7 +50,7 @@ public class SqlUtils {
 
 		String tableName = entity.getClass().getSimpleName();
 
-		Map<String, Object> props = ReflectionUtils.getFields(entity);
+		Map<String, Object> props = ReflectionUtils.getFields(entity, true);
 		
 		String sqlPattern = "update %s set %s where %s";
 		

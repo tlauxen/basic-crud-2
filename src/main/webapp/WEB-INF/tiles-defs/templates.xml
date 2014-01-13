@@ -50,4 +50,16 @@
 		<put-attribute name="js" value="cidade/controllerCadastroCidade.js" />
     </definition>
  
+    <!-- Feriado -->
+	<definition name="feriado.listagem" extends="basic">
+        <put-attribute name="title" value="Basic CRUD - Listagem de Feriados" type="string" />
+		<put-attribute name="body" value="/WEB-INF/jsp/feriado/listagem.jsp" />
+    </definition>
+ 
+	<definition name="feriado.cadastro" extends="basic">
+        <put-attribute name="title" value="Basic CRUD - Cadastro de Feriados" type="string" />
+		<put-attribute name="body" value="/WEB-INF/jsp/feriado/cadastro.jsp" />
+		<put-attribute name="js" value="cidade/controllerCadastroFeriado.js" />
+    </definition>
+ 
 </tiles-definitions>

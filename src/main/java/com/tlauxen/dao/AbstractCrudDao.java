@@ -13,6 +13,7 @@ import org.skife.jdbi.v2.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tlauxen.model.Entity;
+import com.tlauxen.model.IDomain;
 import com.tlauxen.utils.ReflectionUtils;
 import com.tlauxen.utils.SqlUtils;
 
@@ -68,7 +69,7 @@ public abstract class AbstractCrudDao<T extends Entity> {
 		
 		final String sql = SqlUtils.getSqlInsert(entity);
 
-		final Map<String, Object> props = ReflectionUtils.getFields(entity);
+		final Map<String, Object> props = ReflectionUtils.getFields(entity, false);
 		
     	DBI dbi = new DBI(dataSource);
     	Handle h = dbi.open();
@@ -77,7 +78,12 @@ public abstract class AbstractCrudDao<T extends Entity> {
 	    		public Object inTransaction(Handle h, TransactionStatus arg1) throws Exception {
 	    			Update statement = h.createStatement(sql);
 	    			for (String key: props.keySet()) {
-	    				statement.bind(key, props.get(key));
+	    				Object o = props.get(key);
+	    				if (o != null && IDomain.class.isAssignableFrom(o.getClass())) {
+	    					statement.bind(key, ((IDomain)o).getValue());
+	    				} else {
+	    					statement.bind(key, o);
+	    				}
 	    			}
 	    			statement.execute();
 	    			return null;
@@ -94,7 +100,7 @@ public abstract class AbstractCrudDao<T extends Entity> {
 
 		final String sql = SqlUtils.getSqlUpdate(entity);
 
-		final Map<String, Object> props = ReflectionUtils.getFields(entity);
+		final Map<String, Object> props = ReflectionUtils.getFields(entity, true);
 
 		DBI dbi = new DBI(dataSource);
     	Handle h = dbi.open();
@@ -103,7 +109,12 @@ public abstract class AbstractCrudDao<T extends Entity> {
 	    		public Object inTransaction(Handle h, TransactionStatus arg1) throws Exception {
 	    			Update statement = h.createStatement(sql);
 	    			for (String key: props.keySet()) {
-	    				statement.bind(key, props.get(key));
+	    				Object o = props.get(key);
+	    				if (o != null && IDomain.class.isAssignableFrom(o.getClass())) {
+	    					statement.bind(key, ((IDomain)o).getValue());
+	    				} else {
+	    					statement.bind(key, o);
+	    				}
 	    			}
 	    			statement.execute();
 	    			return null;
